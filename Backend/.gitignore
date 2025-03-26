@@ -1,0 +1,25 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Dotenv environment variable files
+.env
+.env.*.local
+
+# Build outputs
+dist/
+build/
+
+# Optional npm/yarn cache
+.yarn/cache
+.yarn/unplugged
+.npm
+
+# IDE/editor specific
+.vscode/
+.idea/

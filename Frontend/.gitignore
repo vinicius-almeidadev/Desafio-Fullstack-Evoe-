@@ -1,0 +1,41 @@
+# Dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Build outputs
+build/
+dist/
+out/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.vitepress/cache/
+.vitepress/dist/
+
+# Framework-specific
+.next/
+.nuxt/
+.docusaurus/
+
+# Static site generators
+.vuepress/dist
+.temp/
+
+# Optional npm/yarn cache
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# IDE/editor specific
+.vscode/
+.idea/
