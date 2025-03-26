@@ -8,6 +8,7 @@ const UserModel = database.define('User', {
     cpf: columnTypes.string({ unique: true }),
     birth_date: columnTypes.date(),
     phone_number: columnTypes.string(),
+    password: columnTypes.string(),
 });
 
 export default UserModel;

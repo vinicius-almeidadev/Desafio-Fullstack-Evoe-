@@ -12,9 +12,6 @@ app.use(express.json());
 // Database Connection
 import database from "./src/config/database.js"; // Just importing is enough to connect to the database
 
-// Models
-import userModel from "./src/models/user-model.js"; // Just importing is enough to load the model
-
 // Routes
 import userRoutes from "./src/routes/user-routes.js";
 app.use("/user", userRoutes);

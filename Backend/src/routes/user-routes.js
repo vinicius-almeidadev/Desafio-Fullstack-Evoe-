@@ -4,22 +4,22 @@ import UserController from "../controllers/user-controller.js";
 const router = express.Router();
 
 router.post(
-    '/users',
+    '/',
     UserController.createUser
 );
 
 router.put(
-    '/users/:id',
+    '/:id',
     UserController.updateUser
 );
 
 router.get(
-    '/users/:id',
+    '/:id',
     UserController.getUserById
 );
 
 router.get(
-    '/users',
+    '/',
     UserController.getUsers
 );
 
