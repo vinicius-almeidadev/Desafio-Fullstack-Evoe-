@@ -10,13 +10,13 @@ app.use(cors());
 app.use(express.json());
 
 // Database Connection
-import dataBase from './config/dataBase.js';
+import database from "./src/config/database.js"; // Just importing is enough to connect to the database
 
 // Models
-import userModel from "./models/userModel.js"; // Just importing is enough to load the model
+import userModel from "./src/models/user-model.js"; // Just importing is enough to load the model
 
 // Routes
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./src/routes/user-routes.js";
 app.use("/user", userRoutes);
 
 const port = process.env.PORT || 3000;
@@ -28,7 +28,7 @@ function monitorServer() {
 }
 
 // Database sync with error handling
-dataBase
+database
     .sync()
     .then(monitorServer)
     .catch((error) => {
