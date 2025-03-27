@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import s from './ActionButton.module.scss';
 
 interface ActionButtonProps {
+    type?: 'button' | 'submit';
     label: string;
     onclickHandler?: () => void;
     icon?: string;
@@ -14,11 +15,12 @@ interface ActionButtonProps {
 }
 
 export default function ActionButton({ 
-  label, onclickHandler, icon, iconPosition, disabled
+  type = "button", label, onclickHandler, icon, iconPosition, disabled
 }: ActionButtonProps) {
     return (
         <main className={s.wrapperMain}>
             <Button
+                type={type}
                 label={label}
                 onClick={() => onclickHandler ? onclickHandler() : null}
                 icon={icon ? icon : ''}
