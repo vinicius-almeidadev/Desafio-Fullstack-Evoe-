@@ -1,46 +1,25 @@
 import userModel from "../models/user-model.js";
 import UserHelper from "../helpers/user-helper.js";
-import RegexHelper from "../helpers/regex-helper.js";
 
 export class UserController {
     static async createUser(req, res) {
-        const { name, cpf, email, birthDate, phoneNumber,
-            password, confirmPassword } = req.body;
+        const { password, confirmPassword } = req.body;
 
-        if (!name || !cpf || !email || !birthDate || !phoneNumber || !password)
-            return res.status(400).json({ type: "error", message: "Todos os campos são obrigatórios" });
-
-        if (!RegexHelper.cpf.test(cpf))
-            return res.status(400).json({ type: "error", message: "CPF inválido" });
-
-        if (!RegexHelper.email.test(email))
-            return res.status(400).json({ type: "error", message: "E-mail inválido" });
-
-        if (!RegexHelper.birthDate.test(birthDate))
-            return res.status(400).json({ type: "error", message: "Data de nascimento inválida" });
-
-        if (!RegexHelper.phoneNumber.test(phoneNumber))
-            return res.status(400).json({ type: "error", message: "Número de telefone inválido" });
+        const validation = UserHelper.validateUserData(req, res);
+        if (!validation.valid) return UserHelper.handleResponse(res, 400, validation.message);
 
         if (password !== confirmPassword)
-            return res.status(400).json({ type: "error", message: "As senhas não coincidem" });
-        
-        const hashedPassword = await UserHelper.encodePassword(password);
+            return UserHelper.handleResponse(res, 400, "As senhas não coincidem");
 
-        const userBody = {
-            name,
-            cpf: cpf.replace(/\D/g, ""), // Remove all non-numeric characters
-            email,
-            birth_date: birthDate,
-            phone_number: phoneNumber.replace(/\D/g, ""), // Remove all non-numeric characters
-            password: hashedPassword,
-        };
+        const userBody = UserHelper.formatUserData(req.body);
+        userBody.password = await UserHelper.encodePassword(password);
 
         const isUnique = await UserHelper.isUniqueRespected(res, userBody, userModel);
         if (!isUnique) return;
 
         try {
             const user = await userModel.create(userBody);
+
             const userResponse = {
                 id: user.id,
                 name: user.name,
@@ -51,48 +30,26 @@ export class UserController {
                 updatedAt: user.updatedAt
             };
 
-            res.status(201).json({ type: "success", message: "Usuário criado com sucesso", userResponse });
+            return UserHelper.handleResponse(res, 201, "Usuário criado com sucesso", userResponse);
         } catch (error) {
             console.error("Error creating user:", error);
-            res.status(500).json({ type: "error", message: "Erro ao criar o usuário. Por favor, tente novamente mais tarde." });
+            return UserHelper.handleResponse(res, 500, "Erro ao criar o usuário. Por favor, tente novamente mais tarde.");
         }
     }
 
     static async updateUser(req, res) {
         const { id } = req.params;
-        const { name, cpf, email, birthDate, phoneNumber } = req.body;
 
-        if (!name || !cpf || !email || !birthDate || !phoneNumber)
-            return res.status(400).json({ type: "error", message: "Todos os campos são obrigatórios" });
+        const validation = UserHelper.validateUserData(req, res);
+        if (!validation.valid) return UserHelper.handleResponse(res, 400, validation.message);
 
-        if (!RegexHelper.cpf.test(cpf))
-            return res.status(400).json({ type: "error", message: "CPF inválido" });
-
-        if (!RegexHelper.email.test(email))
-            return res.status(400).json({ type: "error", message: "E-mail inválido" });
-
-        if (!RegexHelper.birthDate.test(birthDate))
-            return res.status(400).json({ type: "error", message: "Data de nascimento inválida" });
-
-        if (!RegexHelper.phoneNumber.test(phoneNumber))
-            return res.status(400).json({ type: "error", message: "Número de telefone inválido" });
-
-        const editedUser = {
-            name,
-            cpf: cpf.replace(/\D/g, ""), // Remove all non-numeric characters
-            email,
-            birth_date: birthDate,
-            phone_number: phoneNumber.replace(/\D/g, ""), // Remove all non-numeric characters
-        };
-
+        const editedUser = UserHelper.formatUserData(req.body);
         const isUnique = await UserHelper.isUniqueRespected(res, editedUser, userModel);
         if (!isUnique) return;
 
         try {
             const user = await userModel.findByPk(id);
-
-            if (!user)
-                return res.status(404).json({ type: "error", message: "Usuário não encontrado" });
+            if (!user) return UserHelper.handleResponse(res, 404, "Usuário não encontrado");
 
             await user.update(editedUser);
 
@@ -106,32 +63,57 @@ export class UserController {
                 updatedAt: user.updatedAt
             };
 
-            res.status(200).json({ type: "success", message: "Usuário atualizado com sucesso", userResponse });
+            return UserHelper.handleResponse(res, 200, "Usuário atualizado com sucesso", userResponse);
         } catch (error) {
             console.error("Error updating user:", error);
-            res.status(400).json({ type: "error", message: "Erro ao atualizar o usuário. Por favor, tente novamente mais tarde." });
+            return UserHelper.handleResponse(res, 400, "Erro ao atualizar o usuário. Por favor, tente novamente mais tarde.");
         }
     }
 
     static async getUserById(req, res) {
+        const { id } = req.params;
+
         try {
-            const user = await userModel.findByPk(req.params.id);
-            if (user) {
-                res.status(200).json(user);
-            } else {
-                res.status(404).json({ error: "User not found" });
-            }
+            const user = await userModel.findByPk(id);
+            if (!user) return UserHelper.handleResponse(res, 404, "Usuário não encontrado");
+
+            const userResponse = {
+                id: user.id,
+                name: user.name,
+                cpf: user.cpf,
+                email: user.email,
+                birthDate: user.birth_date,
+                phoneNumber: user.phone_number,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            };
+
+            return UserHelper.handleResponse(res, 200, "Dados do usuário recuperados com sucesso", userResponse);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error("Error fetching user", error);
+            return UserHelper.handleResponse(res, 400, "Erro ao buscar os dados do usuário. Tente novamente mais tarde.");
         }
     }
 
     static async getUsers(req, res) {
         try {
             const users = await userModel.findAll();
-            res.status(200).json(users);
+            if (!users || !users.length) return UserHelper.handleResponse(res, 200, "Nenhum usuário encontrado");
+            const usersResponse = users.map(user => ({
+                id: user.id,
+                name: user.name,
+                cpf: user.cpf,
+                email: user.email,
+                birthDate: user.birth_date,
+                phoneNumber: user.phone_number,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            }));
+
+            return UserHelper.handleResponse(res, 200, "Usuários listados com sucesso", usersResponse, 'users');
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error("Error fetching users", error);
+            return UserHelper.handleResponse(res, 400, "Erro ao buscar a lista de usuários. Tente novamente mais tarde.");
         }
     }
 }
