@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { IUser } from '../../../interfaces/users/profile/IUser';
 import { useEffect, useState } from 'react';
-import  { createUser } from '../../../services/UserService';
+import  { updateUser, getUserById, createUser } from '../../../services/UserService';
 import { toast } from 'react-toastify';
 // Styles
 import s from './Profile.module.scss';
@@ -22,19 +22,19 @@ export default function Profile() {
     const navigate = useNavigate();
     const params = useParams();
     const { id } = params;
-    const [initialValues, setInitialValues] = useState<IUser>({
-        name: "",
-        cpf: "",
-        email: "",
-        phoneNumber: "",
-        birthDate: "",
-        password: "",
-        confirmPassword: ""
-    });
+    const [userToUpdate, setUserToUpdate] = useState<IUser>();
 
     const formik = useFormik<IUser>({
         enableReinitialize: true,
-        initialValues,
+        initialValues: {
+            name: "",
+            cpf: "",
+            email: "",
+            phoneNumber: "",
+            birthDate: "",
+            password: "",
+            confirmPassword: "",
+        },
         validationSchema: Yup.object().shape({
             name: Yup.string().required("Nome é obrigatório."),
             cpf: Yup.string().required("CPF é obrigatório."),
@@ -44,16 +44,18 @@ export default function Profile() {
             birthDate: Yup.date()
                 .required("O campo data de nascimento é obrigatório.")
                 .max(new Date(new Date().setFullYear(new Date().getFullYear() - 16)), "Você deve ter pelo menos 16 anos."),
-            password: Yup.string()
-                .required("Campo Senha é obrigatório")
-                .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d,.\s;:!@#*]{8,}$/,
-                    "Sua senha não atende aos requisitos"
-                )
-                .matches(/^\S*$/, "A senha não pode conter espaços"),
-            confirmPassword: Yup.string()
-                .required("Campo Confirmar Senha é obrigatório")
-                .oneOf([Yup.ref("password")], "As senhas não coincidem"),
+            ...((id === "novo") && {
+                password: Yup.string()
+                    .required("Campo Senha é obrigatório")
+                    .matches(
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d,.\s;:!@#*]{8,}$/,
+                        "Sua senha não atende aos requisitos"
+                    )
+                    .matches(/^\S*$/, "A senha não pode conter espaços"),
+                confirmPassword: Yup.string()
+                    .required("Campo Confirmar Senha é obrigatório")
+                    .oneOf([Yup.ref("password")], "As senhas não coincidem"),
+            }),
         }),
         onSubmit: async (values) => {
             if (id === "novo") {
@@ -68,11 +70,53 @@ export default function Profile() {
     });
 
     // Effects
-    // useEffect(() => {
-    //     console.log("formik.errors", formik.errors);
-    // }, [formik.errors]);
+    useEffect(() => {
+        const fetchData = async () => {
+            if (id && id !== "novo") await fetchUserById(id);
+        };
+
+        fetchData();
+    }, [id]);
+
+    useEffect(() => {
+        if (userToUpdate && userToUpdate.cpf && userToUpdate.phoneNumber) {
+            formik.setValues({
+              name: userToUpdate.name || "",
+              cpf: userToUpdate.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") || "",
+              email: userToUpdate.email || "",
+              phoneNumber: userToUpdate.phoneNumber.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3") || "",
+              birthDate: converterToISO(userToUpdate.birthDate) || "",
+              password: "",
+              confirmPassword: "",
+            });
+        }
+    }, [userToUpdate]);
 
     // Functions
+    async function fetchUserById(userId: string) {
+        const response = await getUserById(userId);
+
+        if (response?.type !== "success") {
+            toast.error(response.message, {
+                position: "top-right",
+                autoClose: 4500,
+                toastId: "fetchUserError",
+            });
+
+            navigate("/users");
+
+            return;
+        }
+
+        toast.success(response.message, {
+            position: "top-right",
+            autoClose: 2500,
+            toastId: "fetchUserSuccess",
+        });
+
+        setUserToUpdate(response?.user || {});
+    }
+
     async function handleCreateUser(values: IUser): Promise<void> {
         const birthDate = convertDateISO(values.birthDate);
         values.birthDate = birthDate;
@@ -99,7 +143,34 @@ export default function Profile() {
     }
 
     async function handleUpdateUser(values: IUser): Promise<void> {
-        console.log("Updating user...", values);
+        const data: IUser = {
+            name: values.name,
+            cpf: values.cpf,
+            email: values.email,
+            phoneNumber: values.phoneNumber,
+            birthDate: convertDateISO(values.birthDate),
+        };
+
+        const response = await updateUser(id, data);
+
+        console.log("responseEdit:", response);
+
+        if (response?.type === "success") {
+            toast.success(response.message, {
+                position: "top-right",
+                autoClose: 2500,
+                toastId: "createUserSuccess",
+            });
+            
+            navigate("/users");
+            return;
+        }
+
+        toast.error(response.message, {
+            position: "top-right",
+            autoClose: 4500,
+            toastId: "createUserError",
+        });
     }
 
     function convertDateISO(isoDate: string): string {
@@ -107,7 +178,12 @@ export default function Profile() {
     }
 
     function converterToISO(dateString: string): string {
-        return new Date(dateString + "T03:00:00.000Z").toISOString();
+        const formattedDateString = dateString + "T03:00:00.000Z";
+        const date = new Date(formattedDateString);
+
+        if (isNaN(date.getTime())) return "";
+
+        return date.toISOString();
     }
 
     function handleBack() {
@@ -147,6 +223,7 @@ export default function Profile() {
                                         fieldName="cpf"
                                         fieldLabel="CPF"
                                         fieldMask="999.999.999-99"
+                                        value={userToUpdate?.cpf}
                                         slotChar="000.000.000-00"
                                         formik={formik}
                                     />
@@ -165,6 +242,7 @@ export default function Profile() {
                                         fieldName="phoneNumber"
                                         fieldLabel="Telefone para contato"
                                         fieldMask="(99) 99999-9999"
+                                        value={userToUpdate?.phoneNumber}
                                         slotChar="(00) 00000-0000"
                                         formik={formik}
                                     />
@@ -176,22 +254,24 @@ export default function Profile() {
                                     />
                                 </div>
 
-                                <div className={s.fourthGridLine}>
-                                    <PasswordField
-                                        fieldName="password"
-                                        fieldLabel="Senha"
-                                        formik={formik}
-                                        placeholder="Insira a senha"
-                                        passwordPanel
-                                    />
+                                {id === "novo" && (
+                                    <div className={s.fourthGridLine}>
+                                        <PasswordField
+                                            fieldName="password"
+                                            fieldLabel="Senha"
+                                            formik={formik}
+                                            placeholder="Insira a senha"
+                                            passwordPanel
+                                        />
 
-                                    <PasswordField
-                                        fieldName="confirmPassword"
-                                        fieldLabel="Confirmar Senha"
-                                        formik={formik}
-                                        placeholder="Insira a senha novamente"
-                                    />
-                                </div>
+                                        <PasswordField
+                                            fieldName="confirmPassword"
+                                            fieldLabel="Confirmar Senha"
+                                            formik={formik}
+                                            placeholder="Insira a senha novamente"
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             <div className={s.contentBodyFooter}>

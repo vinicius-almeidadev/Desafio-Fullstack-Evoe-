@@ -9,6 +9,7 @@ export interface IMaskFieldProps {
     fieldName: string;
     fieldLabel: string;
     fieldMask: string;
+    value?: string;
     slotChar?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik: any;
@@ -17,14 +18,14 @@ export interface IMaskFieldProps {
 }
 
 export default function MaskField({
-  fieldName, fieldLabel, fieldMask, slotChar, formik, placeholder = "Digite...", disabled
+  fieldName, fieldLabel, fieldMask, value, slotChar, formik, placeholder = "Digite...", disabled
 }: IMaskFieldProps) {
     return (
         <main className={s.wrapperMain}>
             <label>{fieldLabel}</label>
             <InputMask
                 name={fieldName}
-                value={formik.values[fieldName]}
+                value={formik.values[fieldName] || value}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 mask={fieldMask}

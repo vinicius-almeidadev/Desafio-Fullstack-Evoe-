@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import RegexHelper from "./regex-helper.js";
+import { Op } from "sequelize";
 const saltRounds = 15; // Define the number of salt rounds
 
 export class UserHelper {

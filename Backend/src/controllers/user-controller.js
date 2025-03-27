@@ -44,7 +44,7 @@ export class UserController {
         if (!validation.valid) return UserHelper.handleResponse(res, 400, validation.message);
 
         const editedUser = UserHelper.formatUserData(req.body);
-        const isUnique = await UserHelper.isUniqueRespected(res, editedUser, userModel);
+        const isUnique = await UserHelper.isUniqueRespected(res, editedUser, userModel, id);
         if (!isUnique) return;
 
         try {
