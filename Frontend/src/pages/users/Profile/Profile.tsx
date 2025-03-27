@@ -12,6 +12,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { IUser } from '../../../interfaces/users/profile/IUser';
 import { useEffect, useState } from 'react';
+import  { createUser } from '../../../services/UserService';
+import { toast } from 'react-toastify';
 // Styles
 import s from './Profile.module.scss';
 
@@ -54,19 +56,60 @@ export default function Profile() {
                 .oneOf([Yup.ref("password")], "As senhas não coincidem"),
         }),
         onSubmit: async (values) => {
-            await submitForm(values);
+            if (id === "novo") {
+                // Create user logic
+                handleCreateUser(values);
+                return;
+            }
+
+            // Update user logic
+            handleUpdateUser(values);
         }
     });
 
     // Effects
-    useEffect(() => {
-        console.log("formik.values", formik.values);
-    }, [formik.values]);
+    // useEffect(() => {
+    //     console.log("formik.errors", formik.errors);
+    // }, [formik.errors]);
 
     // Functions
-    async function submitForm(values: IUser): Promise<void> {
-        console.log("Creating user...", values);
+    async function handleCreateUser(values: IUser): Promise<void> {
+        const birthDate = convertDateISO(values.birthDate);
+        values.birthDate = birthDate;
+
+        const response = await createUser(values);
+
+        if (response?.type === "success") {
+            toast.success(response.message, {
+                position: "top-right",
+                autoClose: 2500,
+                toastId: "createUserSuccess",
+            });
+
+            formik.resetForm();
+            navigate("/users");
+            return;
+        }
+
+        toast.error(response.message, {
+            position: "top-right",
+            autoClose: 4500,
+            toastId: "createUserError",
+        });
     }
+
+    async function handleUpdateUser(values: IUser): Promise<void> {
+        console.log("Updating user...", values);
+    }
+
+    function convertDateISO(isoDate: string): string {
+        return new Date(isoDate).toISOString().split("T")[0];
+    }
+
+    function converterToISO(dateString: string): string {
+        return new Date(dateString + "T03:00:00.000Z").toISOString();
+    }
+
     function handleBack() {
         navigate(-1);
     }
