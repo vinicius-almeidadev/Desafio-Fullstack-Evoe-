@@ -3,6 +3,7 @@ import Title from '../../../components/title/Title';
 import TextField from '../../../components/text-field/TextField';
 import MaskField from '../../../components/mask-field/MaskField';
 import CalendarField from '../../../components/calendar-field/CalendarField';
+import PasswordField from '../../../components/password-field/PasswordField';
 import ActionButton from '../../../components/action-button/ActionButton';
 // Images
 // Imports
@@ -40,17 +41,17 @@ export default function Profile() {
             // birthDate: Yup.string().required("O campo data de nascimento é obrigatório."),
             birthDate: Yup.date()
                 .required("O campo data de nascimento é obrigatório.")
-                // .max(new Date(new Date().setFullYear(new Date().getFullYear() - 16)), "Você deve ter pelo menos 16 anos."),
-            // password: Yup.string()
-            //     .required("Campo Senha é obrigatório")
-            //     .matches(
-            //         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d,.\s;:!@#*]{8,}$/,
-            //         "Sua senha não atende aos requisitos"
-            //     )
-            //     .matches(/^\S*$/, "A senha não pode conter espaços"),
-            // confirmPassword: Yup.string()
-            //     .required("Campo Confirmar Senha é obrigatório")
-            //     .oneOf([Yup.ref("password")], "As senhas não coincidem"),
+                .max(new Date(new Date().setFullYear(new Date().getFullYear() - 16)), "Você deve ter pelo menos 16 anos."),
+            password: Yup.string()
+                .required("Campo Senha é obrigatório")
+                .matches(
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d,.\s;:!@#*]{8,}$/,
+                    "Sua senha não atende aos requisitos"
+                )
+                .matches(/^\S*$/, "A senha não pode conter espaços"),
+            confirmPassword: Yup.string()
+                .required("Campo Confirmar Senha é obrigatório")
+                .oneOf([Yup.ref("password")], "As senhas não coincidem"),
         }),
         onSubmit: async (values) => {
             await submitForm(values);
@@ -91,8 +92,8 @@ export default function Profile() {
                             <div className={s.formWrapper}>
                                 <div className={s.firstGridLine}>
                                     <TextField
-                                        fildName="name"
-                                        fildLabel="Nome Completo"
+                                        fieldName="name"
+                                        fieldLabel="Nome Completo"
                                         formik={formik}
                                         placeholder="Insira o nome completo"
                                     />
@@ -100,17 +101,17 @@ export default function Profile() {
 
                                 <div className={s.secondGridLine}>
                                     <MaskField
-                                        fildName="cpf"
-                                        fildLabel="CPF"
-                                        fildMask="999.999.999-99"
+                                        fieldName="cpf"
+                                        fieldLabel="CPF"
+                                        fieldMask="999.999.999-99"
                                         slotChar="000.000.000-00"
                                         formik={formik}
                                     />
                                     
                                     <TextField
-                                        fildType="email"
-                                        fildName="email"
-                                        fildLabel="E-mail"
+                                        fieldType="email"
+                                        fieldName="email"
+                                        fieldLabel="E-mail"
                                         formik={formik}
                                         placeholder="Insira o e-mail"
                                     />
@@ -118,26 +119,52 @@ export default function Profile() {
 
                                 <div className={s.thirdGridLine}>
                                     <MaskField
-                                        fildName="phoneNumber"
-                                        fildLabel="Telefone para contato"
-                                        fildMask="(99) 99999-9999"
+                                        fieldName="phoneNumber"
+                                        fieldLabel="Telefone para contato"
+                                        fieldMask="(99) 99999-9999"
                                         slotChar="(00) 00000-0000"
                                         formik={formik}
                                     />
 
                                     <CalendarField
-                                        fildName="birthDate"
-                                        fildLabel="Data de Nascimento"
+                                        fieldName="birthDate"
+                                        fieldLabel="Data de Nascimento"
                                         formik={formik}
+                                    />
+                                </div>
+
+                                <div className={s.fourthGridLine}>
+                                    <PasswordField
+                                        fieldName="password"
+                                        fieldLabel="Senha"
+                                        formik={formik}
+                                        placeholder="Insira a senha"
+                                        passwordPanel
+                                    />
+
+                                    <PasswordField
+                                        fieldName="confirmPassword"
+                                        fieldLabel="Confirmar Senha"
+                                        formik={formik}
+                                        placeholder="Insira a senha novamente"
                                     />
                                 </div>
                             </div>
 
-                            <ActionButton
-                                type="submit"
-                                label="Salvar"
-                                onclickHandler={() => formik.handleSubmit()}
-                            />
+                            <div className={s.contentBodyFooter}>
+                                <ActionButton
+                                    type="submit"
+                                    label={id === "novo" ? "Cadastrar" : "Atualizar"}
+                                    onclickHandler={() => formik.handleSubmit()}
+                                />
+
+                                <ActionButton
+                                    type="submit"
+                                    label="Voltar"
+                                    onclickHandler={() => handleBack()}
+                                    reverseStyle
+                                />
+                            </div>
                         </div>
                     </div>
                 </section>

@@ -6,9 +6,9 @@ import { InputMask } from 'primereact/inputmask';
 import s from './MaskField.module.scss';
 
 export interface IMaskFieldProps {
-    fildName: string;
-    fildLabel: string;
-    fildMask: string;
+    fieldName: string;
+    fieldLabel: string;
+    fieldMask: string;
     slotChar?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik: any;
@@ -17,24 +17,24 @@ export interface IMaskFieldProps {
 }
 
 export default function MaskField({
-  fildName, fildLabel, fildMask, slotChar, formik, placeholder = "Digite...", disabled
+  fieldName, fieldLabel, fieldMask, slotChar, formik, placeholder = "Digite...", disabled
 }: IMaskFieldProps) {
     return (
         <main className={s.wrapperMain}>
-            <label>{fildLabel}</label>
+            <label>{fieldLabel}</label>
             <InputMask
-                name={fildName}
-                value={formik.values[fildName]}
+                name={fieldName}
+                value={formik.values[fieldName]}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                mask={fildMask}
+                mask={fieldMask}
                 slotChar={slotChar}
                 placeholder={placeholder}
                 className={s.field}
                 disabled={disabled}
             />
-            {formik.touched[fildName] && formik.errors[fildName] && (
-                <small className={s.errorMessage}>{formik.errors[fildName]}</small>
+            {formik.touched[fieldName] && formik.errors[fieldName] && (
+                <small className={s.errorMessage}>{formik.errors[fieldName]}</small>
             )}
         </main>
     );

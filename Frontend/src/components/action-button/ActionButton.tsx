@@ -11,11 +11,12 @@ interface ActionButtonProps {
     onclickHandler?: () => void;
     icon?: string;
     iconPosition?: 'left' | 'right';
+    reverseStyle?: boolean;
     disabled?: boolean;
 }
 
 export default function ActionButton({ 
-  type = "button", label, onclickHandler, icon, iconPosition, disabled
+  type = "button", label, onclickHandler, icon, iconPosition, reverseStyle = false, disabled
 }: ActionButtonProps) {
     return (
         <main className={s.wrapperMain}>
@@ -23,6 +24,7 @@ export default function ActionButton({
                 type={type}
                 label={label}
                 onClick={() => onclickHandler ? onclickHandler() : null}
+                className={reverseStyle ? s.reverseStyle : ''}
                 icon={icon ? icon : ''}
                 iconPos={iconPosition ? iconPosition : 'left'}
                 disabled={disabled}

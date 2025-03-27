@@ -6,9 +6,9 @@ import { InputText } from 'primereact/inputtext';
 import s from './TextField.module.scss';
 
 export interface ITextFieldProps {
-    fildType?: string;
-    fildName: string;
-    fildLabel: string;
+    fieldType?: string;
+    fieldName: string;
+    fieldLabel: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik: any;
     placeholder?: string;
@@ -16,24 +16,24 @@ export interface ITextFieldProps {
 }
 
 export default function TextField({
-  fildType = "text", fildName, fildLabel, formik,
+  fieldType = "text", fieldName, fieldLabel, formik,
   placeholder = "Digite...", disabled
 }: ITextFieldProps) {
     return (
         <main className={s.wrapperMain}>
-            <label>{fildLabel}</label>
+            <label>{fieldLabel}</label>
             <InputText
-                type={fildType}
-                name={fildName}
-                value={formik.values[fildName]}
+                type={fieldType}
+                name={fieldName}
+                value={formik.values[fieldName]}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder={placeholder}
                 className={s.field}
                 disabled={disabled}
             />
-            {formik.touched[fildName] && formik.errors[fildName] && (
-                <small className={s.errorMessage}>{formik.errors[fildName]}</small>
+            {formik.touched[fieldName] && formik.errors[fieldName] && (
+                <small className={s.errorMessage}>{formik.errors[fieldName]}</small>
             )}
         </main>
     );

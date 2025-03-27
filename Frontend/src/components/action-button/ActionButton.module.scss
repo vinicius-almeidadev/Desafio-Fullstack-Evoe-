@@ -40,18 +40,21 @@
 
             color: var(--scale-white-color-3);
         }
-    }
-}
 
-@media screen and (max-width: 920px) {
-    .wrapperMain {
-        button {
-            @include inconsolata-bold-xs;
+        &.reverseStyle {
+            border-color: var(--scale-white-color-0);
+            background-color: var(--scale-white-color-5);
 
-            padding: 0.25rem 0.5rem;
-            height: 32px;
+            color: var(--scale-white-color-0);
 
-            gap: 0.25rem;
+            &:hover {
+                border-color: var(--scale-white-color-0);
+                background-color: var(--scale-white-color-0);
+
+                color: var(--scale-white-color-5);
+
+                transform: scale(1.0125) !important;
+            }
         }
     }
 }

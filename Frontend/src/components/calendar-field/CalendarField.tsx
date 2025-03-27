@@ -6,8 +6,8 @@ import { Calendar } from 'primereact/calendar';
 import s from './CalendarField.module.scss';
 
 export interface ICalendarFieldProps {
-    fildName: string;
-    fildLabel: string;
+    fieldName: string;
+    fieldLabel: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik: any;
     placeholder?: string;
@@ -15,16 +15,16 @@ export interface ICalendarFieldProps {
 }
 
 export default function CalendarField({
-  fildName, fildLabel, formik,
+  fieldName, fieldLabel, formik,
   placeholder = "00/00/0000", disabled
 }: ICalendarFieldProps) {
     return (
         <main className={s.wrapperMain}>
-            <label>{fildLabel}</label>
+            <label>{fieldLabel}</label>
             <Calendar
-                name={fildName}
-                value={formik.values[fildName] ? new Date(formik.values[fildName]) : null}
-                onChange={(e) => formik.setFieldValue(fildName, e.value)}
+                name={fieldName}
+                value={formik.values[fieldName] ? new Date(formik.values[fieldName]) : null}
+                onChange={(e) => formik.setFieldValue(fieldName, e.value)}
                 placeholder={placeholder}
                 className={s.field}
                 disabled={disabled}
@@ -46,8 +46,8 @@ export default function CalendarField({
                     buttonbar: { className: s.customCalendarButtonBar },
                 }}
             />
-            {formik.touched[fildName] && formik.errors[fildName] && (
-                <small className={s.errorMessage}>{formik.errors[fildName]}</small>
+            {formik.touched[fieldName] && formik.errors[fieldName] && (
+                <small className={s.errorMessage}>{formik.errors[fieldName]}</small>
             )}
         </main>
     );
