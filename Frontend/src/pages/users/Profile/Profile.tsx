@@ -153,8 +153,6 @@ export default function Profile() {
 
         const response = await updateUser(id, data);
 
-        console.log("responseEdit:", response);
-
         if (response?.type === "success") {
             toast.success(response.message, {
                 position: "top-right",

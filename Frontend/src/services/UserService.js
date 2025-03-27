@@ -53,3 +53,21 @@ export async function updateUser(userId, data) {
       return error.response.data;
   }
 }
+
+export async function getUsers() {
+  try {
+      const response = await fullStackChallengeApi.get(`/user`, {
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+
+      if (response.status !== 200) {
+          throw new Error(response);
+      }
+
+      return response.data;
+  } catch (error) {
+      return error.response.data;
+  }
+}
