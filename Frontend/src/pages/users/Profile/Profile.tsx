@@ -1,5 +1,8 @@
 // Components
 import Title from '../../../components/title/Title';
+import TextField from '../../../components/text-field/TextField';
+import MaskField from '../../../components/mask-field/MaskField';
+import CalendarField from '../../../components/calendar-field/CalendarField';
 import ActionButton from '../../../components/action-button/ActionButton';
 // Images
 // Imports
@@ -7,12 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { IUser } from '../../../interfaces/users/profile/IUser';
+import { useEffect, useState } from 'react';
 // Styles
 import s from './Profile.module.scss';
-import TextField from '../../../components/text-field/TextField';
-import { useState } from 'react';
-import MaskField from '../../../components/mask-field/MaskField';
-// import { useEffect } from 'react';
 
 export default function Profile() {
     // Variables
@@ -24,7 +24,7 @@ export default function Profile() {
         cpf: "",
         email: "",
         phoneNumber: "",
-        birthDate: new Date(),
+        birthDate: "",
         password: "",
         confirmPassword: ""
     });
@@ -40,24 +40,27 @@ export default function Profile() {
             // birthDate: Yup.string().required("O campo data de nascimento é obrigatório."),
             birthDate: Yup.date()
                 .required("O campo data de nascimento é obrigatório.")
-                .max(new Date(new Date().setFullYear(new Date().getFullYear() - 16)), "Você deve ter pelo menos 16 anos."),
-            password: Yup.string()
-                .required("Campo Senha é obrigatório")
-                .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d,.\s;:!@#*]{8,}$/,
-                    "Sua senha não atende aos requisitos"
-                )
-                .matches(/^\S*$/, "A senha não pode conter espaços"),
-                confirmPassword: Yup.string()
-                    .required("Campo Confirmar Senha é obrigatório")
-                    .oneOf([Yup.ref("password")], "As senhas não coincidem"),
-                }),
+                // .max(new Date(new Date().setFullYear(new Date().getFullYear() - 16)), "Você deve ter pelo menos 16 anos."),
+            // password: Yup.string()
+            //     .required("Campo Senha é obrigatório")
+            //     .matches(
+            //         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d,.\s;:!@#*]{8,}$/,
+            //         "Sua senha não atende aos requisitos"
+            //     )
+            //     .matches(/^\S*$/, "A senha não pode conter espaços"),
+            // confirmPassword: Yup.string()
+            //     .required("Campo Confirmar Senha é obrigatório")
+            //     .oneOf([Yup.ref("password")], "As senhas não coincidem"),
+        }),
         onSubmit: async (values) => {
             await submitForm(values);
         }
     });
 
     // Effects
+    useEffect(() => {
+        console.log("formik.values", formik.values);
+    }, [formik.values]);
 
     // Functions
     async function submitForm(values: IUser): Promise<void> {
@@ -119,6 +122,12 @@ export default function Profile() {
                                         fildLabel="Telefone para contato"
                                         fildMask="(99) 99999-9999"
                                         slotChar="(00) 00000-0000"
+                                        formik={formik}
+                                    />
+
+                                    <CalendarField
+                                        fildName="birthDate"
+                                        fildLabel="Data de Nascimento"
                                         formik={formik}
                                     />
                                 </div>

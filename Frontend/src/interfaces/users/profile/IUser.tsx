@@ -4,7 +4,7 @@ export interface IUser {
     cpf: string;
     email: string;
     phoneNumber: string;
-    birthDate: Date;
+    birthDate: string;
     password?: string;
     confirmPassword?: string;
 }

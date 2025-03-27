@@ -68,31 +68,32 @@ a {
 
 /* Scrollbar */
 *::-webkit-scrollbar {
-    height: 10px;
-    width: 10px;
+    height: 7px;
+    width: 7px;
 }
+
 *::-webkit-scrollbar-track {
     border-radius: 5px;
-    background-color: #DFE9EB;
+    background-color: rgba(253, 253, 252, 0.745);
 }
 
 *::-webkit-scrollbar-track:hover {
-    background-color: #B8C0C2;
+    background-color: rgba(253, 253, 252, 0.745);
 }
 
 *::-webkit-scrollbar-track:active {
-    background-color: #B8C0C2;
+    background-color: rgba(253, 253, 252, 0.745);
 }
 
 *::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: #434343;
+    background-color: #CFD0D0;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background-color: #2E2E2E;
+    background-color: #A0A1A1;
 }
 
 *::-webkit-scrollbar-thumb:active {
-    background-color: #222222;
+    background-color: #A0A1A1;
 }
