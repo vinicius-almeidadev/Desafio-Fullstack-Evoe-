@@ -1,0 +1,30 @@
+@use "../../styles/fonts.scss" as *;
+
+.wrapperMain {
+    padding: 2rem 0;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+
+    transition: padding 0.75s ease-in-out;
+
+    h1 {
+        @include poppins-3xl;
+
+        width: 100%;
+
+        color: var(--scale-white-color-0);
+
+        transition: 0.75s ease-in-out;
+    }
+}
+
+@media screen and (max-width: 920px) {
+    .wrapperMain {
+        padding: 1rem 0;
+        
+        h1 {
+            @include poppins-2xl;
+        }
+    }
+}

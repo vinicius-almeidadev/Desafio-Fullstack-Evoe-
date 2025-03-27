@@ -1,0 +1,97 @@
+@use './fonts.scss';
+
+:root {
+    /* Font family */
+    --font-family-syne: 'Syne', sans-serif;
+    --font-family-poppins: 'Poppins', sans-serif;
+    --font-family-inconsolata: 'Inconsolata', monospace;
+
+    /* Font size */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+
+    /*Font Weights*/
+    --font-weight-bold: 700;
+    --font-weight-regular: 400;
+
+    /*Font Line Height*/        
+    --font-line-height-xs: 0.875rem;
+    --font-line-height-sm: 1.063rem;
+    --font-line-height-md: 1.188rem;
+    --font-line-height-lg: 1.375rem;
+    --font-line-height-xl: 1.5rem;
+    --font-line-height-2xl: 1.813rem;
+    --font-line-height-3xl: 2.438rem;
+
+    /* Colors */
+    --scale-white-color-0: #131414;
+    --scale-white-color-1: #424343;
+    --scale-white-color-2: #717272;
+    --scale-white-color-3: #A0A1A1;
+    --scale-white-color-4: #CFD0D0;
+    --scale-white-color-5: #FFFFFF;
+
+    /* Gradients */
+    --title-gradient: linear-gradient(90deg, var(--scale-white-color-0), var(--scale-white-color-2), var(--scale-white-color-5));
+}
+
+/* RESETS */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none !important;
+}
+
+html,
+body {
+    max-width: 100vw;
+    height: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+*::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #DFE9EB;
+}
+
+*::-webkit-scrollbar-track:hover {
+    background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-track:active {
+    background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #434343;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #2E2E2E;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #222222;
+}
