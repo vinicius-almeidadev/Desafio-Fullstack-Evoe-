@@ -34,8 +34,9 @@
 <h2 id="started">🚀 Iniciando a aplicação</h2>
 
 <h3>Pré-requisitos</h3>
-- **NodeJS** (v16 ou superior recomendado)
-- **MySQL** para banco de dados (ou equivalente)
+
+- **NodeJS**
+- **MySQL**
 
 <h3>Configuração do Banco de Dados</h3>
 Antes de rodar a aplicação, configure seu banco de dados MySQL e crie um banco de dados com o nome configurado na variável de ambiente `DB_NAME`.
