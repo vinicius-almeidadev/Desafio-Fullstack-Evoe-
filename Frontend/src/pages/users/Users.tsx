@@ -143,7 +143,6 @@ export default function Users() {
                                 label="Adicionar usuário"
                                 onclickHandler={handleAddUser}
                                 icon="pi pi-user-plus"
-                                iconPosition="right"
                             />
                         </div>
 

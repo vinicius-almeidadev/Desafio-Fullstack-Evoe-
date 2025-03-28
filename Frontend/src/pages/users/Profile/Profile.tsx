@@ -24,6 +24,7 @@ export default function Profile() {
     const params = useParams();
     const { id } = params;
     const [userToUpdate, setUserToUpdate] = useState<IUser>();
+    const [loading, setLoading] = useState(false);
 
     const formik = useFormik<IUser>({
         enableReinitialize: true,
@@ -41,7 +42,6 @@ export default function Profile() {
             cpf: Yup.string().required("CPF é obrigatório."),
             email: Yup.string().email("E-mail inválido.").required("E-mail é obrigatório."),
             phoneNumber: Yup.string().required("O campo telefone é obrigatório."),
-            // birthDate: Yup.string().required("O campo data de nascimento é obrigatório."),
             birthDate: Yup.date()
                 .required("O campo data de nascimento é obrigatório.")
                 .max(new Date(new Date().setFullYear(new Date().getFullYear() - 16)), "Você deve ter pelo menos 16 anos."),
@@ -61,12 +61,12 @@ export default function Profile() {
         onSubmit: async (values) => {
             if (id === "novo") {
                 // Create user logic
-                handleCreateUser(values);
+                handleCreateUser(values, setLoading);
                 return;
             }
 
             // Update user logic
-            handleUpdateUser(values);
+            handleUpdateUser(values, setLoading);
         }
     });
 
@@ -118,11 +118,11 @@ export default function Profile() {
         setUserToUpdate(response?.user || {});
     }
 
-    async function handleCreateUser(values: IUser): Promise<void> {
+    async function handleCreateUser(values: IUser, setLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> {
         const birthDate = convertDateISO(values.birthDate);
         values.birthDate = birthDate;
 
-        const response = await createUser(values);
+        const response = await createUser(values, setLoading);
 
         if (response?.type === "success") {
             toast.success(response.message, {
@@ -143,7 +143,7 @@ export default function Profile() {
         });
     }
 
-    async function handleUpdateUser(values: IUser): Promise<void> {
+    async function handleUpdateUser(values: IUser, setLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> {
         const data: IUser = {
             name: values.name,
             cpf: values.cpf,
@@ -152,7 +152,7 @@ export default function Profile() {
             birthDate: convertDateISO(values.birthDate),
         };
 
-        const response = await updateUser(id, data);
+        const response = await updateUser(id, data, setLoading);
 
         if (response?.type === "success") {
             toast.success(response.message, {
@@ -280,6 +280,7 @@ export default function Profile() {
                                     type="submit"
                                     label={id === "novo" ? "Cadastrar" : "Atualizar"}
                                     onclickHandler={() => formik.handleSubmit()}
+                                    loading={loading}
                                 />
 
                                 <ActionButton

@@ -1,6 +1,9 @@
 import fullStackChallengeApi from "./ApiService";
 
-export async function createUser(data) {
+export async function createUser(data, setLoading) {
+  // Enable loading
+  setLoading(true);
+
   try {
       const response = await fullStackChallengeApi.post(`/user`, data, {
           headers: {
@@ -15,6 +18,9 @@ export async function createUser(data) {
       return response.data;
   } catch (error) {
       return error.response.data;
+  } finally {
+      // Disable loading
+      setLoading(false);
   }
 }
 
@@ -36,7 +42,10 @@ export async function getUserById(userId) {
   }
 }
 
-export async function updateUser(userId, data) {
+export async function updateUser(userId, data, setLoading) {
+  // Enable loading
+  setLoading(true);
+
   try {
       const response = await fullStackChallengeApi.put(`/user/${userId}`, data, {
           headers: {
@@ -51,6 +60,9 @@ export async function updateUser(userId, data) {
       return response.data;
   } catch (error) {
       return error.response.data;
+  } finally {
+      // Disable loading
+      setLoading(false);
   }
 }
 
