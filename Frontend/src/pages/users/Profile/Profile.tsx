@@ -1,5 +1,6 @@
 // Components
-import Title from '../../../components/title/Title';
+import Header from '../../../components/Header/Header';
+import Footer from '../../../components/Footer/Footer';
 import TextField from '../../../components/text-field/TextField';
 import MaskField from '../../../components/mask-field/MaskField';
 import CalendarField from '../../../components/calendar-field/CalendarField';
@@ -192,7 +193,7 @@ export default function Profile() {
         <main className={s.wrapperMain}>
             <div className={s.internWrapper}>
                 <section id="title">
-                    <Title title="Desafio FullStack" />
+                    <Header text="Desafio FullStack" />
                 </section>
 
                 <section id="content">
@@ -223,9 +224,18 @@ export default function Profile() {
                                         fieldMask="999.999.999-99"
                                         value={userToUpdate?.cpf}
                                         slotChar="000.000.000-00"
+                                        placeholder="000.000.000-00"
                                         formik={formik}
                                     />
-                                    
+
+                                    <CalendarField
+                                        fieldName="birthDate"
+                                        fieldLabel="Data de Nascimento"
+                                        formik={formik}
+                                    />
+                                </div>
+
+                                <div className={s.thirdGridLine}>
                                     <TextField
                                         fieldType="email"
                                         fieldName="email"
@@ -233,21 +243,14 @@ export default function Profile() {
                                         formik={formik}
                                         placeholder="Insira o e-mail"
                                     />
-                                </div>
 
-                                <div className={s.thirdGridLine}>
                                     <MaskField
                                         fieldName="phoneNumber"
                                         fieldLabel="Telefone para contato"
                                         fieldMask="(99) 99999-9999"
                                         value={userToUpdate?.phoneNumber}
                                         slotChar="(00) 00000-0000"
-                                        formik={formik}
-                                    />
-
-                                    <CalendarField
-                                        fieldName="birthDate"
-                                        fieldLabel="Data de Nascimento"
+                                        placeholder="(00) 00000-0000"
                                         formik={formik}
                                     />
                                 </div>
@@ -280,7 +283,6 @@ export default function Profile() {
                                 />
 
                                 <ActionButton
-                                    type="submit"
                                     label="Voltar"
                                     onclickHandler={() => handleBack()}
                                     reverseStyle
@@ -290,6 +292,7 @@ export default function Profile() {
                     </div>
                 </section>
             </div>
+            <Footer />
         </main>
     );
 }

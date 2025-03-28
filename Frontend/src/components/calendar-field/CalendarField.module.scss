@@ -9,7 +9,7 @@
     gap: 0.5rem;
 
     label {
-        @include inconsolata-regular-sm;
+        @include inconsolata-bold-md;
 
         width: 100%;
         height: auto;
@@ -26,8 +26,6 @@
         border: 0.5px solid var(--scale-white-color-4);
         border-radius: 0.313rem;
         background-color: var(--scale-white-color-5);
-
-        text-indent: 0.5rem;
 
         box-shadow: inset 0px 1px 3px #00000029;
     }
@@ -106,19 +104,83 @@
 }
 
 .customCalendarButtonBar {
-  padding: 0 0.7rem;
-  box-sizing: border-box;
+    padding: 0 0.7rem;
+    height: 32px;
+    box-sizing: border-box;
 
-  border: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    border: none;
 }
 
-.customCalendarTodayButton {
-  @include inconsolata-regular-md;
+.customCalendarFooter {
+    padding: 0 0.7rem;
+    box-sizing: border-box;
 
-  padding: 0.5rem !important;
-  box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
 
-  border: 1px solid var(--scale-white-color-0);
-  border-radius: 10px;
-  background-color: var(--scale-white-color-0);
+    border: none;
+    background-color: saddlebrown;
+
+    .cancelButton {
+        @include inconsolata-regular-sm;
+
+        width: 100%;
+        height: 32px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid var(--scale-white-color-0);
+        border-radius: 10px;
+        background-color: var(--scale-white-color-5);
+
+        color: var(--scale-white-color-0);
+
+        box-shadow: 0px 1px 3px #00000029;
+        transition: 0.325s ease-in-out, color 0s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            border-color: var(--scale-white-color-0);
+            background-color: var(--scale-white-color-0);
+
+            color: var(--scale-white-color-5);
+
+            transform: scale(1.0125) !important;
+        }
+    }
+
+    .applyButton {
+        @include inconsolata-regular-sm;
+
+        padding: 0.5rem !important;
+        width: 100%;
+        height: 32px;
+        box-sizing: border-box;
+
+        border: 1px solid var(--scale-white-color-0);
+        border-radius: 10px;
+        background-color: var(--scale-white-color-0);
+
+        color: var(--scale-white-color-5);
+
+        box-shadow: 0px 1px 3px #00000029;
+        transition: 0.325s ease-in-out, color 0s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            border-color: var(--scale-white-color-0);
+            background-color: var(--scale-white-color-5);
+
+            color: var(--scale-white-color-0);
+
+            transform: scale(1.0125) !important;
+        }
+    }
 }

@@ -2,6 +2,8 @@
 import { Password } from "primereact/password";
 // Images
 // Imports
+import { FormikProps } from "formik";
+import { IUser } from "../../interfaces/users/profile/IUser";
 // Styles
 import s from './PasswordField.module.scss';
 
@@ -10,8 +12,7 @@ export interface IPasswordFieldProps {
     fieldLabel: string;
     toggleMask?: boolean;
     passwordPanel?: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    formik: any;
+    formik: FormikProps<IUser>;
     placeholder?: string;
     disabled?: boolean;
 }
@@ -50,7 +51,7 @@ export default function PasswordField({
             <label>{fieldLabel}</label>
             <Password
                 name={fieldName}
-                value={formik.values[fieldName]}
+                value={formik.values[fieldName as keyof IUser]}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 toggleMask={toggleMask}
@@ -64,16 +65,16 @@ export default function PasswordField({
                 header={header}
                 footer={
                   <PasswordRequirements
-                    isLowercase={/[a-z]/.test(formik.values[fieldName])}
-                    isUppercase={/[A-Z]/.test(formik.values[fieldName])}
-                    isNumber={/[0-9]/.test(formik.values[fieldName])}
-                    isLengthValid={formik.values[fieldName]?.length >= 8}
+                    isLowercase={/[a-z]/.test(formik.values[fieldName as keyof IUser] as string)}
+                    isUppercase={/[A-Z]/.test(formik.values[fieldName as keyof IUser] as string)}
+                    isNumber={/[0-9]/.test(formik.values[fieldName as keyof IUser] as string)}
+                    isLengthValid={(formik.values[fieldName as keyof IUser] as string)?.length >= 8}
                   />
                 }
                 disabled={disabled}
             />
-            {formik.touched[fieldName] && formik.errors[fieldName] && (
-                <small className={s.errorMessage}>{formik.errors[fieldName]}</small>
+            {formik.touched[fieldName as keyof IUser] && formik.errors[fieldName as keyof IUser] && (
+                <small className={s.errorMessage}>{formik.errors[fieldName as keyof IUser]}</small>
             )}
         </main>
     );

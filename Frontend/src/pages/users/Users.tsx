@@ -1,19 +1,21 @@
 // Components
-import Title from '../../components/title/Title';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import ActionButton from '../../components/action-button/ActionButton';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 // Images
 // Imports
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import  { getUsers } from '../../services/userService';
 import { toast } from 'react-toastify';
+import { IUser } from '../../interfaces/users/profile/IUser';
 // Styles
 import s from './Users.module.scss';
-import { IUser } from '../../interfaces/users/profile/IUser';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
+
 
 export default function Users() {
     // Variables
@@ -53,12 +55,6 @@ export default function Users() {
 
             return;
         }
-
-        toast.success(response.message, {
-            position: "top-right",
-            autoClose: 2500,
-            toastId: "fetchUserSuccess",
-        });
 
         setUsers(response?.users?.map((user: IUser) => ({
             id: user.id,
@@ -136,7 +132,7 @@ export default function Users() {
 
             <div className={s.internWrapper}>
                 <section id="title">
-                    <Title title="Desafio FullStack" />
+                    <Header text="Desafio FullStack" />
                 </section>
 
                 <section id="content">
@@ -144,7 +140,7 @@ export default function Users() {
                         <div className={s.contentHeader}>
                             <h1 className={s.contentTitle}>Usuários Cadastrados</h1>
                             <ActionButton
-                                label="Adicionar Usuário"
+                                label="Adicionar usuário"
                                 onclickHandler={handleAddUser}
                                 icon="pi pi-user-plus"
                                 iconPosition="right"
@@ -172,6 +168,8 @@ export default function Users() {
                     </div>
                 </section>
             </div>
+
+            <Footer />
         </main>
     );
 }

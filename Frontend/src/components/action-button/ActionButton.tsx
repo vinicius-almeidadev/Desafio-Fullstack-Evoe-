@@ -9,6 +9,7 @@ interface ActionButtonProps {
     type?: 'button' | 'submit';
     label: string;
     onclickHandler?: () => void;
+    size?: 'small' | 'medium' | 'large';
     icon?: string;
     iconPosition?: 'left' | 'right';
     reverseStyle?: boolean;
@@ -16,18 +17,35 @@ interface ActionButtonProps {
 }
 
 export default function ActionButton({ 
-  type = "button", label, onclickHandler, icon, iconPosition, reverseStyle = false, disabled
+  type = "button", label, onclickHandler, size, icon, iconPosition,
+  reverseStyle = false, disabled
 }: ActionButtonProps) {
+    // Functions
+    function handleInputSize(size: 'small' | 'medium' | 'large') {
+        const sizes = {
+            small: '32px',
+            medium: '40px',
+            large: '48px',
+        };
+
+        return sizes[size] || '48px';
+    }
+
     return (
         <main className={s.wrapperMain}>
             <Button
                 type={type}
                 label={label}
+                disabled={disabled}
                 onClick={() => onclickHandler ? onclickHandler() : null}
-                className={reverseStyle ? s.reverseStyle : ''}
                 icon={icon ? icon : ''}
                 iconPos={iconPosition ? iconPosition : 'left'}
-                disabled={disabled}
+                className={reverseStyle ? s.reverseStyle : ""}
+                style={{
+                    display: "flex",
+                    gap: icon ? "0.5rem" : "",
+                    height: handleInputSize(size || 'large')
+                }}
             />
         </main>
     );
