@@ -142,12 +142,12 @@
 // Dialog
 .deleteDialog {
     .dialogHeader {
-        padding: 0.75rem;
+        padding: 1rem;
         box-sizing: border-box;
     }
 
     .dialogContent {
-        padding: 0.75rem;
+        padding: 1rem;
         width: 100%;
         height: auto;
         box-sizing: border-box;
@@ -178,7 +178,7 @@
 }
 
 .dialogFooter {
-  padding: 0.75rem;
+  padding: 1rem;
   width: 100%;
   height: auto;
   box-sizing: border-box;
@@ -196,6 +196,8 @@
 
     display: grid;
     grid-template-columns: minmax(0, auto) minmax(0, 30rem);
+
+    background-color: var(--scale-white-color-5);
 
     .reportTitle {
         @include inconsolata-bold-lg;
@@ -250,6 +252,12 @@
     background-color: transparent;
 
     box-shadow: none !important;
+}
+
+[class~="p-datatable-emptymessage"] {
+    td {
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 920px) {

@@ -120,7 +120,7 @@ export default function Users() {
             <Dialog
                 visible={isModalOpen}
                 className={s.deleteDialog}
-                closeIcon="pi pi-times-circle"
+                closeIcon={<i className="pi pi-times-circle" style={{ fontSize: "1.75rem", color: "var(--scale-white-color-0)" }} />}
                 modal
                 headerClassName={s.dialogHeader}
                 footer={deleteProductDialogFooter}
@@ -160,6 +160,7 @@ export default function Users() {
                                 selection={selectedUsers} 
                                 selectionMode="multiple"
                                 onSelectionChange={(e) => setSelectedUsers(e.value)}
+                                emptyMessage="Nenhum usuário cadastrado."
                             >
                                 <Column selectionMode="multiple" exportable={false} />
                                 {columns.map((col) => (
