@@ -4,7 +4,6 @@
   <a href="#technologies">Tecnologias</a> • 
   <a href="#requirements">Requisitos</a> • 
   <a href="#started">Iniciando a Aplicação</a> • 
-  <a href="#api-usage">Exemplo de Uso da API</a> • 
 </p>
 
 <h2 id="technologies">💻 Tecnologias</h2>
@@ -16,7 +15,7 @@
 - **Sequelize**
 - **Vite**
 
-<h2 id="requirements">Requisitos</h2>
+<h2 id="requirements">🚀 Requisitos</h2>
 
 <p>
   O desafio consiste em desenvolver uma API REST em NodeJS que permita gerenciar usuários/apoiadores, bem como uma página de perfil utilizando ReactJS para visualização desses dados. A aplicação será dividida em duas partes:
@@ -40,26 +39,6 @@
 
 <h3>Configuração do Banco de Dados</h3>
 Antes de rodar a aplicação, configure seu banco de dados MySQL e crie um banco de dados com o nome configurado na variável de ambiente `DB_NAME`.
-
-
-
-
-<h2 id="started">🚀 Iniciando a aplicação</h2>
-
-<p align="center">
-  Desenvolver uma API REST utilizando NodeJS que atenda aos seguintes requisitos.
-
-  - O serviço deve incluir um novo usuário ao sistema
-  - O serviço deve atualizar um usuário/apoiador já cadastrado
-  - O serviço deve retornar uma lista dos usuários cadastrados
-  - O serviço deve retornar os dados de um usuário de forma detalhada e individual.
-</p>
-
-<h2 id="started">🚀 Iniciando a aplicação</h2>
-
-<h3>Pré-requisitos</h3>
-
-- NodeJS
 
 <h3>Variáveis de ambiente (.env)</h2>
 
