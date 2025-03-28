@@ -23,8 +23,6 @@
         flex-direction: column;
         gap: 2rem;
 
-        // background-color: saddlebrown;
-
         .wrapperContent {
             width: 100%;
             height: auto;
@@ -33,8 +31,6 @@
             flex-direction: column;
             gap: 2rem;
 
-            // background-color: sandybrown;
-
             .contentHeader {
                 padding: 2rem;
                 width: 100%;
@@ -42,14 +38,13 @@
                 box-sizing: border-box;
 
                 display: grid;
-                grid-template-columns: auto max-content;
+                grid-template-columns: minmax(0, auto) minmax(0, max-content);
                 align-items: center;
                 gap: 1rem;
 
                 border-radius: 12px;
                 background-color: var(--scale-white-color-5);
 
-                // box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
                 box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
                 transition: 0.75s ease-in-out;
 
@@ -63,8 +58,198 @@
                     transition: 0.75s ease-in-out;
                 }
             }
+
+            .contentBody {
+                padding: 2rem;
+                width: 100%;
+                height: auto;
+                box-sizing: border-box;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+
+                border-radius: 12px;
+                background-color: var(--scale-white-color-5);
+
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+                transition: 0.75s ease-in-out;
+
+                .customDataTable {
+                    width: 100%;
+
+                    border-radius: 5px;
+
+                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+                    overflow: hidden;
+
+                    table {
+                        thead {
+                            tr {
+                                height: 42px;
+
+                                background-color: var(--scale-white-color-5);
+
+                                th {
+                                    height: 42px;
+
+                                    background-color: var(--scale-white-color-2);
+
+                                    span {
+                                        @include inconsolata-regular-md;
+
+                                        width: 100%;
+
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        color: var(--scale-white-color-5);
+                                    }
+                                }
+                            }
+                        }
+
+                        tbody {
+                            tr {
+                                height: 42px;
+
+                                background-color: var(--scale-white-color-5);
+
+                                transition: 0.75s ease-in-out;
+
+                                &:hover {
+                                    background-color: var(--scale-white-color-4);
+                                }
+
+                                td {
+                                    @include inconsolata-regular-md;
+
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    color: var(--scale-white-color-0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+}
+
+// Dialog
+.deleteDialog {
+    .dialogHeader {
+        padding: 0.75rem;
+        box-sizing: border-box;
+    }
+
+    .dialogContent {
+        padding: 0.75rem;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        border-radius: 5px;
+
+        i {
+            width: 5rem;
+            height: 5rem;
+
+            color: var(--scale-white-color-0);
+        }
+
+        span {
+            @include inconsolata-bold-md;
+
+            width: 80%;
+
+            text-align: center;
+            color: var(--scale-white-color-0);
+        }
+    }
+}
+
+.dialogFooter {
+  padding: 0.75rem;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+// Table
+.header {
+    padding: 1rem;
+    width: 100%;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 30rem);
+
+    .reportTitle {
+        @include inconsolata-bold-lg;
+
+        color: var(--scale-white-color-0);
+    }
+}
+
+.actionBody {
+    display: grid;
+    grid-template-columns: repeat(2, 30px);
+    gap: 0.5rem;
+
+    .actionButton {
+        width: 30px;
+        height: 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        border-radius: 5px;
+        border: 1px solid var(--scale-white-color-0);
+        background-color: var(--scale-white-color-0);
+
+        color: var(--scale-white-color-5);
+
+        transition: 0.75s ease-in-out;
+
+        &:hover {
+            border-color: var(--scale-white-color-0);
+            background-color: var(--scale-white-color-5);
+
+            color: var(--scale-white-color-0);
+        }
+    }
+}
+
+[class~="p-selection-column"] {    
+    height: 42px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[class~="p-checkbox-input"] {
+    box-shadow: none !important;
+}
+
+[class~="p-checkbox-box"] {
+    background-color: transparent;
+
+    box-shadow: none !important;
 }
 
 @media screen and (max-width: 920px) {
@@ -85,6 +270,12 @@
                     .contentTitle {
                         @include poppins-md;
                     }
+                }
+
+                .contentBody {
+                    padding: 1.5rem;
+
+                    gap: 1rem;
                 }
             }
         }

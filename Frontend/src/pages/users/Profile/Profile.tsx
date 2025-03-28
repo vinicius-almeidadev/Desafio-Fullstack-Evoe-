@@ -85,7 +85,7 @@ export default function Profile() {
               cpf: userToUpdate.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") || "",
               email: userToUpdate.email || "",
               phoneNumber: userToUpdate.phoneNumber.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3") || "",
-              birthDate: converterToISO(userToUpdate.birthDate) || "",
+              birthDate: convertToISO(userToUpdate.birthDate) || "",
               password: "",
               confirmPassword: "",
             });
@@ -175,7 +175,7 @@ export default function Profile() {
         return new Date(isoDate).toISOString().split("T")[0];
     }
 
-    function converterToISO(dateString: string): string {
+    function convertToISO(dateString: string): string {
         const formattedDateString = dateString + "T03:00:00.000Z";
         const date = new Date(formattedDateString);
 
