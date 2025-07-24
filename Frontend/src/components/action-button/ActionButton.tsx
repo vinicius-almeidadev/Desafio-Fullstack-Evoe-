@@ -18,8 +18,8 @@ interface ActionButtonProps {
 }
 
 export default function ActionButton({ 
-  type = "button", label, onclickHandler, loading = false, size, icon,
-  iconPosition = "right", reverseStyle = false, disabled
+    type = "button", label, onclickHandler, loading = false, size, icon,
+    iconPosition = "right", reverseStyle = false, disabled
 }: ActionButtonProps) {
     // Functions
     function handleInputSize(size: 'small' | 'medium' | 'large') {

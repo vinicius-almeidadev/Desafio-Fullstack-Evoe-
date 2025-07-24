@@ -17,8 +17,8 @@ export interface ITextFieldProps {
 }
 
 export default function TextField({
-  fieldType = "text", fieldName, fieldLabel, formik,
-  placeholder = "Digite...", disabled
+    fieldType = "text", fieldName, fieldLabel, formik,
+    placeholder = "Digite...", disabled
 }: ITextFieldProps) {
     return (
         <main className={s.wrapperMain}>
